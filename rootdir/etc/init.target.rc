@@ -133,6 +133,27 @@ service vendor.nfc_hal_service /vendor/bin/hw/android.hardware.nfc@1.2-service
     class hal
     user nfc
     group nfc
+    
+on charger
+    wait /dev/block/platform/soc/1da4000.ufshc/by-name/system
+    mount ext4 /dev/block/platform/soc/1da4000.ufshc/by-name/system / ro barrier=1
+
+    wait /dev/block/platform/soc/1da4000.ufshc/by-name/persist
+    mount ext4 /dev/block/bootdevice/by-name/persist /mnt/vendor/persist nosuid nodev barrier=1
+
+    start vendor.hvdcp_opti
+    start vendor.thermal-engine
+    start vendor.qcom-post-boot
+    start vendor.power_off_alarm
+
+service vendor.thermal-engine /vendor/bin/thermal-engine
+    class main
+    user root
+    socket thermal-send-client stream 0666 system system
+    socket thermal-recv-client stream 0660 system system
+    socket thermal-recv-passive-client stream 0666 system system
+    socket thermal-send-rule stream 0660 system system
+    group root
     task_profiles ServiceCapacityLow
     disabled
 
