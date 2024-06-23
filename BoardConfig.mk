@@ -14,8 +14,6 @@
 # limitations under the License.
 #
 
-BUILD_BROKEN_INCORRECT_PARTITION_IMAGES := true
-
 BOARD_VENDOR := xiaomi
 
 DEVICE_PATH := device/xiaomi/surya
